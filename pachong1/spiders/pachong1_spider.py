@@ -12,7 +12,7 @@ class Pachong1SpiderSpider(scrapy.Spider):
     allowed_domains = ['movie.douban.com']
     # allowed_domains = ['114.116.228.245:7321']
     #入口url
-    start_urls = ['http://core.ecu.edu/psyc/wuenschk/SAS/SAS-Lessons.htm']
+    start_urls = ['http://core.ecu.edu/psyc/wuenschk/PP/PP-Stats.htm']
     # start_urls = ['http://114.116.228.245:7321/dist']
 
     def parse(self, response):
@@ -28,6 +28,8 @@ class Pachong1SpiderSpider(scrapy.Spider):
             douban_item['name'] = item.xpath(".//p/a[1]/text()").extract_first()
             # douban_item['introduce'] = item.xpath(".//div[@class='item']/div[@class='info']/div[@class='hd']/a/span[@class='title']/text()").extract_first()
             tmp_url = item.xpath(".//p/a[1]/@href").extract_first()
+            if tmp_url == None:
+                continue
             douban_item['url'] = tmp_url if 'http' in tmp_url else prefix_url + tmp_url
             if 'http' not in tmp_url:
                 douban_item['fname'] = tmp_url
