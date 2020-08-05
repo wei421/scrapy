@@ -1,0 +1,14 @@
+options pageno=min nodate formdlim='-';
+title 'Ryan Speidel''s Potthoff Analysis'; run;
+data Ryan; infile 'C:\D\StatData\Potthoff3.dat'; input Location $ Length WeightSR;
+Proc GLM; class Location; model Length = WeightSR|Location;
+	title2 'Full model';
+Proc GLM; class Location; model Length = WeightSR / solution;
+	title2 'Covariate only'; run;
+Proc GLM; class Location; model Length = WeightSR WeightSR*Location;
+	title2 'Covariate and Interaction only';
+Proc GLM; class Location; model Length = WeightSR Location ; LSMEANS Location / pdiff;
+	title2 'ANCOV'; run;
+Proc GLM; class Location; model Length = Location ; MEANS Location; MEANS Location / LSD lines;
+	title2 'ANOVA'; run;
+quit;

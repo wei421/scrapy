@@ -1,0 +1,43 @@
+SAS-Windows.txt
+
+	Although many of the programs here were originally written for use on a
+VM mainframe, they have been modified for use on SAS for Windows.  Here are some
+tips for using them:
+
+
+	1.  If the program file includes the data, you may be able to bring the 
+program into SAS simply by double clicking on its name at 
+http://core.ecu.edu/psyc/wuenschk/SAS/SAS-Programs.htm and then telling your 
+browser to open the file rather than save it to disk.  You may, however, have 
+your antivirus program set up not to allow you to open it, in which case you 
+have to save the program to disk first and then bring it into SAS.
+
+	2.  From disk, you should be able to bring it into SAS simply by double 
+clicking on its name or icon in a Windows Explorer or My Computer window , or 
+you can open it from within SAS via the File, Open command.  You can also bring 
+it to any text editor, edit it, and copy and paste it into the SAS editor 
+window.
+
+	3.  If the data are not within the program, you must first download the 
+data file onto your hard drive or diskette.  Then you will need to edit the 
+INFILE statement so that it points to the location of the data file on your 
+computer.  I may have it pointing at the D:\core\StatData directory on my office 
+computer or the C:\StatData directory on my home computer.  You can do this 
+editing within SAS, or, if you prefer, in any text processor, such as Word.  You 
+can then cut and paste the edited file into the program editor of SAS or you can 
+just save it (as plain text) and then bring the edited file into SAS.
+
+	4.  Some of the programs here may still be "under construction."
+
+	6.  Once the edited program file is in SAS, just click the running man to 
+run the program.
+
+	7.  If you want to edit the OUTPUT prior to printing it, you can save 
+the output from SAS, bring it into Word, and edit it there.  You may not want to 
+print all of the output, you may want to annotate it, you may want to put page 
+breaks in places other than SAS did, etc.
+
+
+Karl L. Wuensch
+3. September 2000
+

@@ -1,0 +1,17 @@
+options pageno=min nodate formdlim='-';
+proc format; value grp 1='BST' 2='EC';
+ value sx 0='Female' 1='Male';
+TITLE 'Multivariate Approach to Mixed Anova with 1 Within-Subjects'; run;
+title2 'and two Between-Subjects Factors: Howell (8th), page 479.'; run;
+data HIV; infile 'C:\Users\Vati\Documents\StatData\MAN_1W2B.dat';
+ INPUT Gender Group Pretest Posttest FU6 FU12;
+ mean=mean(of Pretest -- FU12); format Group grp. Gender sx. ;
+*****************************************************************************;
+proc anova; class Group Gender; model Pretest -- FU12 = Group|Gender;
+ repeated Time 4 / printe; means Group; run;
+*****************************************************************************;
+proc anova; class Gender Group; model mean=Gender|Group; means Gender; run;
+*****************************************************************************;
+proc sort; by group;
+proc anova;  model Pretest -- FU12 = / nouni;
+ repeated Time 4 contrast(1) / printe summary; by group; run;

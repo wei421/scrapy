@@ -1,0 +1,14 @@
+*MODERATE.SAS;
+options pageno=min nodate formdlim='-';
+title 'Moderation, Misanthropy Data';
+data AR1; infile 'D:\_Stats\StatData \Moderate.dat';
+input AR Misanth Ideal;
+proc means mean stddev min max nmiss; var AR Misanth Ideal; run;
+title; run;
+proc means mean stddev min max nmiss; var AR Misanth Ideal; run;
+title; run;
+proc standard mean=0 std=1 out=Zs;
+data Interaction; set Zs;
+Interact = Misanth*Ideal;
+proc corr; var AR Misanth Ideal;
+proc reg; model AR = Misanth Ideal interact / tol;  run; QUIT;

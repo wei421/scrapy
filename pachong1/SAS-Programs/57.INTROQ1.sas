@@ -1,0 +1,13 @@
+options pageno=min;
+title 'Exploring the INTROQ data file';
+proc format; value sex 1='Female' 2='Male';
+  value color 1='Brown' 2='Blue' 3='Green' 4='Other' 5='Other'; run;
+data P2101; infile 'C:\StatData\INTROQ.dat';
+input Gender Ideal Eye Statophobia Nucophobia SATM Year;
+format Gender sex. Eye color.;
+proc univariate plot; var Nucophobia;
+proc sort; by Gender;
+proc means; var Ideal Statophobia Nucophobia SATM; by Gender;
+proc freq; tables statophobia Gender*Eye;
+proc corr; var Gender Ideal Statophobia Nucophobia SATM;
+run;

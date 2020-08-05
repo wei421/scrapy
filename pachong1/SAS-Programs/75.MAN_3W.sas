@@ -1,0 +1,51 @@
+options pageno=min nodate formdlim='-';
+TITLE 'Three-Way all Within-Subjects ANOVA';run;
+data err;
+INPUT T1C1S1 T1C1S2 T1C1S3 T1C2S1 T1C2S2 T1C2S3 T1C3S1 T1C3S2 T1C3S3
+      T2C1S1 T2C1S2 T2C1S3 T2C2S1 T2C2S2 T2C2S3 T2C3S1 T2C3S2 T2C3S3;
+*[A]***************************************************************************;
+c1=mean(of T1C1S1 T1C1S2 T1C1S3 T2C1S1 T2C1S2 T2C1S3);
+c2=mean(of T1C2S1 T1C2S2 T1C2S3 T2C2S1 T2C2S2 T2C2S3);
+c3=mean(of T1C3S1 T1C3S2 T1C3S3 T2C3S1 T2C3S2 T2C3S3);
+c1c2=c1-c2; c1c3=c1-c3; c2c3=c2-c3;
+*[B]***************************************************************************;
+s1=mean(of T1C1S1 T1C2S1 T1C3S1 T2C1S1 T2C2S1 T2C3S1);
+s2=mean(of T1C1S2 T1C2S2 T1C3S2 T2C1S2 T2C2S2 T2C3S2);
+s3=mean(of T1C1S3 T1C2S3 T1C3S3 T2C1S3 T2C2S3 T2C3S3);
+s1s2=s1-s2; s1s3=s1-s3;s2s3=s2-s3;
+*[C]***************************************************************************;
+ Night_Small = mean(of T1C1S1 T1C2S1 T1C3S1);
+   Day_Small = mean(of T2C1S1 T2C2S1 T2C3S1);
+Night_Medium = mean(of T1C1S2 T1C2S2 T1C3S2);
+  Day_Medium = mean(of T2C1S2 T2C2S2 T2C3S2);
+ Night_Large = mean(of T1C1S3 T1C2S3 T1C3S3);
+   Day_Large = mean(of T2C1S3 T2C2S3 T2C3S3);
+*[D]***************************************************************************;
+cards;
+10 8 6  9 7 5  7 6 3  5 4 3  4 3 3  2 2 1
+ 9 8 5 10 6 4  4 5 2  4 3 3  4 2 2  2 3 2
+ 8 7 4  7 4 3  3 4 2  4 1 2  3 3 2  1 0 1
+*[E]***************************************************************************;
+proc anova; model T1C1S1 -- T2C3S3 = / nouni;
+repeated Time 2, Course 3, Size 3 / nom; title2 'Omnibus Analysis';
+*[F]***************************************************************************;
+proc anova; model T1C1S1 T1C2S1 T1C3S1 T2C1S1 T2C2S1 T2C3S1 = / nouni;
+repeated Time 2, Course 3 / nom; title2 'Simple Effects for Small Cars';
+*[G]***************************************************************************;
+proc anova; model T1C1S2 T1C2S2 T1C3S2 T2C1S2 T2C2S2 T2C3S2 = / nouni;
+repeated Time 2, Course 3 / nom; title2 'Simple Effects for Medium Cars';
+*[H]***************************************************************************;
+proc anova; model T1C1S3 T1C2S3 T1C3S3 T2C1S3 T2C2S3 T2C3S3 = / nouni;
+repeated Time 2, Course 3 / nom; title2 'Simple Effects for Large Cars';
+*[I]***************************************************************************;
+proc means; var c1 c2 c3 s1 s2 s3 Night_Small -- Day_Large;
+title 'Means for main effects of Course and Size and for Time x Size interaction';
+*[J]***************************************************************************;
+proc anova; model c1 c2 c3 = / nouni; repeated Course 3 / nom;
+title 'Reproduce main effect of Course from its marginal means';
+*[K]***************************************************************************;
+proc anova; model s1 s2 s3 = / nouni; repeated Size 3 / nom;
+title 'Reproduce main effect of Size from its marginal means';
+*[L]***************************************************************************;
+proc means t prt; var c1c2 c1c3 c2c3 s1s2 s1s3 s2s3;
+title 'Pairwise comparisons'; run;
