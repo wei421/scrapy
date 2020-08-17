@@ -10,12 +10,15 @@ class Pachong1Item(scrapy.Item):
     # define the fields for your item here like:
     # name = scrapy.Field()
     # pass
-
-    #名字
-    name = scrapy.Field()
-    #介绍
+    # 序号
+    serial_number = scrapy.Field()
+    # 名字
+    movie_name = scrapy.Field()
+    # 介绍
     introduce = scrapy.Field()
-    #url
-    url = scrapy.Field()
-    #文件名
-    fname = scrapy.Field()
+    # 星级
+    star = scrapy.Field()
+    # 评论数
+    evaluate = scrapy.Field()
+    # 描述
+    describe = scrapy.Field()
